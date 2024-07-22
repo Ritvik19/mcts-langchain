@@ -1,5 +1,7 @@
 # mcts-langchain
 
+This is a fork of [BrendanGraham14/mcts-llm](https://github.com/BrendanGraham14/mcts-llm), I have integrated langchain implementations for model call and refactored the code.
+
 ## MCTSr
 
 Based on [Accessing GPT-4 level Mathematical Olympiad Solutions via Monte Carlo Tree Self-refine with LLaMa-3 8B](https://arxiv.org/abs/2406.07394) by Zhang, et al.
@@ -37,11 +39,23 @@ Expansion involves several steps:
 5. Backpropagate the reward from the new child through its parents, through to the root.
 
 
-# Results
-I haven't run extensive evals on this.
+# Usage
 
+### Imports
+```python
+from mcts_llm.mctsr import MCTSr
+from mcts_llm.prompt_configs import llama_3_8b_prompt_config
+```
 
-## [AIME 2024](./results/AIME_2024_llama_3_8b.csv)
-- `max_rollouts=8`
-- `max_children=2`
+### Instantiate the bLLM
+```python
+from langchain_community.llms import Ollama
 
+model = Ollama(model="llama3:8b")
+```
+
+### Just Run It!!
+```python
+llama = MCTSr(model=model, problem="what are the cube roots of unity", prompt_config=llama_3_8b_prompt_config)
+llama.run()
+```
